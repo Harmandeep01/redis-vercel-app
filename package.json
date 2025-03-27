@@ -1,0 +1,22 @@
+{
+  "name": "redis-express-auth",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/www"
+  },
+  "dependencies": {
+    "axios": "^1.8.3",
+    "bcrypt": "^5.1.1",
+    "connect-ioredis": "^1.4.5",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "ioredis": "^5.6.0",
+    "mongoose": "^8.12.1",
+    "morgan": "~1.9.1",
+    "redis": "^4.7.0"
+  }
+}
