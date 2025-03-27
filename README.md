@@ -5,10 +5,15 @@
 
 ## 📖 Overview
 We created a Best Languages database where users can:
+
 ✅ Register/Login securely
+
 ✅ Select their favorite programming languages dynamically (with logos)
+
 ✅ Fetch stored data quickly using Redis caching
+
 ✅ Logout securely
+
 ✅ Ensure authentication using middleware to protect routes
 
 * ⚡ Important: If a user is not in an active session, they cannot log in or access their favorite languages. Authentication is handled via middleware for security.
@@ -102,6 +107,6 @@ Want to improve this project? Feel free to fork it and submit a PR! 🚀
 
 [GitHub](https://github.com/Harmandeep01)
 
-### Badges
+### LICENSE
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE.txt)
 
