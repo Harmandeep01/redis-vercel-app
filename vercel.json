@@ -1,0 +1,15 @@
+{
+    "version": 2,
+  "builds": [
+    { "src": "server.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "server.js" }
+  ],
+
+    "env": {
+    "REDIS_URL": "rediss://default:AcYpAAIjcDE1NWIwNDE0NjI3M2Q0ZTljYjMwZmM2Yjg5MmM0N2I3OHAxMA@quality-humpback-50729.upstash.io:6379",
+    "SESSION_SECRET": "AcYpAAIjcDE1NWIwNDE0NjI3M2Q0ZTljYjMwZmM2Yjg5MmM0N2I3OHAxMA"
+  }
+}
+  
