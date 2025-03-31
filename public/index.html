@@ -57,13 +57,13 @@
       </p>
     </footer>
     <script>
-      const main = async () => {
+       const main = async () => {
         let [user, favoriteLang, languages] = await Promise.allSettled([
           fetch('/auth/me').then(res => res.json()),
-          fetch('/favorite-language').then(res => res.json()),
+          fetch('/favourite-languages').then(res => res.json()),
           fetch('/languages').then(res => res.json())
         ])
-        document.getElementById('userName').textContent = `Hey, ${user.value.username}`;
+        document.getElementById('userName').textContent = `Hey, ${user.value.user?.username}`;
 
         const selectBox = document.querySelector('.select-favorite-language select');
         const markAsFavBtn = document.querySelector('#markAsFavBtn');
@@ -88,7 +88,7 @@
           if (!selectedLanguageId) {
             return alert('Please select a language first');
           }
-          const favLang = await fetch('/favorite-language', {
+          const favLang = await fetch('/favourite-languages', {
             method: 'POST',
             body: JSON.stringify({
               languageId: selectedLanguageId
@@ -123,6 +123,7 @@
           }
           const {iconUrl, name} = language;
           favLangWrapper.querySelector('.icon img').setAttribute('src', iconUrl);
+          favLangWrapper.querySelector('.icon img').setAttribute('alt', name);
           favLangWrapper.querySelector('.name').textContent = name;
         }
       }

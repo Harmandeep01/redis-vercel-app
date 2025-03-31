@@ -23,7 +23,8 @@ const path = require('path');
     const languagesToAdd = Object.keys(parsedLanguages).map(key => {
         const name = key;
         const iconKey = parsedLanguages[key];
-        const iconUrl = `https://github.com/abranhe/programming-languages-logos/blob/master/src/${iconKey}/${iconKey}.svg`
+        
+        const iconUrl = `https://raw.githubusercontent.com/abranhe/programming-languages-logos/e1be48ad2dffe3e6e0e24fdefa9e740167fb2315/src/${iconKey}/${iconKey}.svg`
         return {
             name,
             iconUrl

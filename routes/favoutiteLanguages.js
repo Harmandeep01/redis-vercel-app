@@ -13,7 +13,7 @@ router.post("/", authenticated, async (req, res) => {
     });
   }
 
-  const languageSaved = await FavouriteLanguage.findOneAndUpdate(
+  const language = await FavouriteLanguage.findOneAndUpdate(
     {
       user: userId,
     },
@@ -26,17 +26,17 @@ router.post("/", authenticated, async (req, res) => {
     }
   );
   res.status(200).json({
-    languageSaved
+    language
   })
 });
 
 router.get('/', async (req, res) => {
     const {_id : userId} = req.session.user;
-    const favouriteLanguage = await FavouriteLanguage.findOne({user : userId}).populate(
-        "language"
+    const  favouriteLang = await FavouriteLanguage.findOne({user : userId}).populate(
+        ["language"]
     );
-    return res.status(200).json({
-    favouriteLanguage
+    res.status(200).json({
+      language : favouriteLang?.language || null
     })
 })
 

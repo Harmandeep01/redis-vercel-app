@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const Language = require('./Language')
-const User = require('./Users')
+const User = require('./User')
 
 const favouriteSchema = new mongoose.Schema({
     language : {
