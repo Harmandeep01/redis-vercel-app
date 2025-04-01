@@ -1,5 +1,4 @@
 require('dotenv').config();
-const connectRedis = require('connect-redis')
 const express = require('express');
 const axios = require('axios');
 const path = require('path');
@@ -8,8 +7,8 @@ const session = require('express-session');
 const logger = require('morgan');
 require('./db/conn')();
 const redis = require('redis');
-const getRedisClient =require('./config/getRedis')
 const { RedisStore } = require('connect-redis');
+const redisClient = require("./config/redisClient");
 
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
@@ -20,30 +19,39 @@ const favouriteLanguagesRouter = require('./routes/favoutiteLanguages');
 
 const app = express();
 
+// Configure Session Middleware
+app.use(
+  session({
+    store: new RedisStore({ client: redisClient }),
+    secret: process.env.SESSION_SECRET || "your_secret_key",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === "production", // Set to true in production with HTTPS
+      httpOnly: true,
+      maxAge: 1000 * 60 * 10, // 10 minutes
+    },
+  })
+);
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-async function setupSession() {
-  const redisClient = await getRedisClient()
-  app.use(session({
-    store: new RedisStore({ client: redisClient }),
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: process.env.NODE_ENV === 'production',
-      httpOnly: true,
-      maxAge: 1000 * 60 * 10 // 10 minutes
-    },
-  }));
+// const Redis = require("ioredis");
 
-  console.log("✅ Session store is ready!");
-}
+const getRedisClient = async () => {
+  const redisClient = new Redis({
+    host: "127.0.0.1", // Local Redis instance
+    port: 6379, // Default Redis port
+  });
 
-// Initialize session store
-setupSession().catch(console.error);
+  redisClient.on("connect", () => console.log("✅ Redis connected locally!"));
+  redisClient.on("error", (err) => console.error("❌ Redis Error:", err));
+
+  return redisClient;
+};
 
 
 
