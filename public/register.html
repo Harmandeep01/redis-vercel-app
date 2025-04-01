@@ -39,7 +39,7 @@
           <a href="/login" class="font-medium text-purple-600 hover:underline">Login</a>
         </p>
         <p class="mt-8 text-xs font-light text-center text-purple-600">
-          Developed by <span class="bold"><a target="_blank" href="https://ahsanayaz.com/youtube">@CodeWithAhsan</a></span>
+          Developed by <span class="bold"><a target="_blank" href="https://github.com/Harmandeep01">@Harmandeep</a></span>
         </p>
       </div>
     </div>
@@ -50,21 +50,42 @@
     const response = await fetch("/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }), //Sending Post  Request to Auth/login
+      body: JSON.stringify({ username, password }), // Sending Post Request to Auth/register
     });
-    const result = await response.json(); // Parsing JSON response
 
-    console.log(result); // Log response
+    // Log the raw response text
+    const rawResponse = await response.text();
+    console.log("Raw Response:", rawResponse); // Log raw response for debugging
 
-    if (response.ok && result?.user) {
-      alert("User Registered successful!");
-      window.location.href = "/login";
+    // Check if the response status is OK (2xx range)
+    if (!response.ok) {
+      throw new Error(`Server responded with status: ${response.status}`);
+    }
+
+    // If the response is valid JSON, parse it
+    let result;
+    try {
+      result = JSON.parse(rawResponse); // Try parsing the response as JSON
+    } catch (jsonError) {
+      throw new Error("Failed to parse response as JSON: " + jsonError.message);
+    }
+
+    console.log(result); // Log parsed result
+
+    // Check if the response contains a user object
+    if (result?.user) {
+      alert("User Registered successfully!");
+      window.location.href = "/login"; // Redirect to login page
+    } else {
+      alert("Registration failed. Please try again.");
     }
   } catch (error) {
+    // Catch any errors and log them
     alert("An error occurred. Please try again.");
-    console.error("Error:", error.message);
+    console.error("Error:", error.message); // Log the error message for debugging
   }
 };
+
 
 // Attach event listener to the form
 document.querySelector("#registrationForm").addEventListener("submit", (e) => {
