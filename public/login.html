@@ -67,8 +67,8 @@
         <p class="mt-8 text-xs font-light text-center text-purple-600">
           Developed by
           <span class="bold"
-            ><a target="_blank" href="https://ahsanayaz.com/youtube"
-              >@CodeWithAhsan</a
+            ><a target="_blank" href="#"
+              >@Harmandeep</a
             ></span
           >
         </p>
@@ -78,7 +78,7 @@
   <script>
     const onFormSubmit = async (username, password) => {
   try {
-    const response = await fetch("http://localhost:3000/auth/login", {
+    const response = await fetch("/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }), //Sending Post  Request to Auth/login
