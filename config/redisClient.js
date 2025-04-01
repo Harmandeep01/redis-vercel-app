@@ -1,10 +1,8 @@
-// redisClient.js
 const Redis = require("ioredis");
+require("dotenv").config();  // Load environment variables from .env file
 
-const redisClient = new Redis({
-  host: "127.0.0.1", // Redis running locally
-  port: 6379,        // Default Redis port
-});
+// Use Upstash Redis URL and password directly
+const redisClient = new Redis(process.env.REDIS_URL);
 
 redisClient.on("connect", () => console.log("✅ Redis Connected"));
 redisClient.on("error", (err) => console.error("❌ Redis Error:", err));
