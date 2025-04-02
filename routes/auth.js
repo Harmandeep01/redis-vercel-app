@@ -9,30 +9,37 @@ const authenticated = require('../middleware/auth.middleware');
 router.post("/register", async (req, res) => {
   const { username, password } = req.body;
   try {
-    console.log(username);
+    console.log("🔹 Registering user:", username);
+
+    console.log("🔹 Checking existing user...");
     const existingUser = await User.findOne({ username });
     if (existingUser) {
-      return res.status(400).json({
-        message: "User already exists",
-      });
+      console.log("⚠️ User already exists.");
+      return res.status(400).json({ message: "User already exists" });
     }
 
-    const newUser = new User({
-      username,
-      password,
-    });
+    console.log("🔹 Creating new user...");
+    const newUser = new User({ username, password });
+
+    console.log("🔹 Saving new user...");
     await newUser.save();
 
+    console.log("🔹 Removing password from response...");
     const user = newUser.toObject();
     delete user.password;
 
-    req.session.user = user;
+    console.log("🔹 Storing session...");
+    req.session.user = user; // Potential Redis issue
+
+    console.log("✅ Registration successful!");
     res.status(201).json({ message: "User registered successfully", user });
-  } catch (err) { 
-    console.error(err.message);
+
+  } catch (err) {
+    console.error("❌ ERROR:", err.message);
     res.status(500).send("Internal Server Error!");
   }
 });
+
 
 //Route for logging in a user
 router.post("/login", async (req, res) => {
