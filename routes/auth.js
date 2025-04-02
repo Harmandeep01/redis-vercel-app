@@ -7,52 +7,32 @@ const authenticated = require('../middleware/auth.middleware');
 
 //Route for registering a user
 router.post("/register", async (req, res) => {
-  res.setHeader("Content-Type", "application/json");
-  res.setHeader("Access-Control-Allow-Origin", "*"); // Adjust if needed
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-
-  if (req.method === "OPTIONS") {
-    return res.status(200).end(); // Handle preflight request
-  }
-
   const { username, password } = req.body;
-
   try {
-    console.log("Registering user:", username);
-
-    // Check if user already exists
+    console.log(username);
     const existingUser = await User.findOne({ username });
     if (existingUser) {
-      return res.status(400).json({ success: false, message: "User already exists" });
+      return res.status(400).json({
+        message: "User already exists",
+      });
     }
 
-    // Create and save new user
-    const newUser = new User({ username, password });
+    const newUser = new User({
+      username,
+      password,
+    });
     await newUser.save();
 
-    // Convert user object and remove password before sending response
     const user = newUser.toObject();
     delete user.password;
 
-    // Attach user session
     req.session.user = user;
-
-    // Send a JSON response
-    return res.status(201).json({
-      success: true,
-      message: "User registered successfully",
-      user,
-    });
-
+    res.status(201).json({ message: "User registered successfully", user });
   } catch (err) { 
-    console.error("Error during registration:", err);
-
-    // Send JSON error response
-    return res.status(500).json({ success: false, message: "Internal Server Error" });
+    console.error(err.message);
+    res.status(500).send("Internal Server Error!");
   }
 });
-
 
 //Route for logging in a user
 router.post("/login", async (req, res) => {
