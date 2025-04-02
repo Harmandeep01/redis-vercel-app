@@ -47,10 +47,10 @@
   <script>
     const onFormSubmit = async (username, password) => {
   try {
-    const response = await fetch("/api/auth/register", { // Add '/api' if using Vercel serverless functions
+    const response = await fetch("https://your-vercel-app.vercel.app/auth/register", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ username, password }), // Sending POST request to Auth/register
+  body: JSON.stringify({ username, password }),
 });
 
 
