@@ -41,19 +41,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// const Redis = require("ioredis");
-
-const getRedisClient = async () => {
-  const redisClient = new Redis({
-    host: "127.0.0.1", // Local Redis instance
-    port: 6379, // Default Redis port
-  });
-
-  redisClient.on("connect", () => console.log("✅ Redis connected locally!"));
-  redisClient.on("error", (err) => console.error("❌ Redis Error:", err));
-
-  return redisClient;
-};
 
 
 
