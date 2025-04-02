@@ -18,7 +18,16 @@ const favouriteLanguagesRouter = require('./routes/favoutiteLanguages');
 
 
 const app = express();
+const cors = require("cors");
 
+// Enable CORS for all routes
+app.use(
+  cors({
+    origin: "*", // Allow requests from any origin
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 
 // Configure Session Middleware
